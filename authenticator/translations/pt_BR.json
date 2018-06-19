@@ -1,0 +1,23 @@
+{
+    "authenticator.toggle.on": "Ativar",
+    "authenticator.toggle.off": "Desativar",
+    "authenticator.field.label": "A verificação em duas etapas está {status}",
+    "authenticator.field.status.on": "ativada",
+    "authenticator.field.status.off": "desativada",
+    "authenticator.field.info.on": "Conta protegida com código de segurança além da senha.",
+    "authenticator.field.info.off": "A verificação em duas etapas aumenta a segurança da sua conta.<br>Uma vez ativada, você precisará usar sua senha e um código de 6 dígitos enviado para o seu celular para entrar.",
+    "authenticator.turnOn.label": "Ativar verificação em duas etapas",
+    "authenticator.turnOn.text": "Um aplicativo autenticador gera um código de segurança no seu celular. Caso você ainda não tenha um, instale-o agora no seu celular: {ios}, {android} ou {windows}.",
+    "authenticator.turnOn.qrcode.label": "Para configurar seu aplicativo autenticador:",
+    "authenticator.turnOn.qrcode.text": "- Vá em adicionar novo código baseado em tempo\n- Use seu aplicativo para escanear o código QR abaixo",
+    "authenticator.turnOn.success": "A verificação em duas etapas foi ativada",
+    "authenticator.turnOn.error": "Não foi possível ativar a verificação em duas etapas",
+    "authenticator.turnOff.label": "Quer mesmo desativar a verificação em duas etapas?",
+    "authenticator.turnOff.text": "Desativar a verificação em duas etapas removerá a camada extra de proteção e você precisará apenas da sua senha para entrar.",
+    "authenticator.turnOff.success": "A verificação em duas etapas foi desativada",
+    "authenticator.turnOff.error": "Não foi possível desativar a verificação em duas etapas",
+    "authenticator.turnOff.securityCode.label": "Confirme seu código de segurança",
+    "authenticator.securityCode.label": "Código de segurança",
+    "authenticator.securityCode.error": "Código de segurança inválido ou expirado",
+    "authenticator.securityCode.help": "Digite o código de segurança de 6 dígitos gerado pelo aplicativo autenticador no seu celular"
+}

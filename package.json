@@ -1,0 +1,8 @@
+{
+    "name": "authenticator",
+    "author": "Pedro Borges <oi@pedroborg.es>",
+    "version": "1.0.0-beta",
+    "description": "Kirby Authenticator",
+    "type": "kirby-plugin",
+    "license": "MIT"
+}

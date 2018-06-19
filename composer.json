@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": {
+            "PedroBorges\\Authenticator\\": "src/"
+        },
+        "files": [
+            "src/bootstrap.php"
+        ]
+    },
+    "require": {
+        "pragmarx/google2fa": "^3.0",
+        "bacon/bacon-qr-code": "^2.0"
+    }
+}
