@@ -36,7 +36,7 @@ class LoginController extends BaseController
             $data = $form->serialize();
 
             try {
-                $self->validateTwoFactorSecret($data['security_code'], $data['username']);
+                $self->validateUserSecret($data['security_code'], $data['username']);
                 $login->attempt($data['username'], $data['password']);
                 $self->redirect();
             } catch (Exception $e) {

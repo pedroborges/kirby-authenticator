@@ -19,18 +19,21 @@ return function ($key, $url) {
             'size'     => 150
         ],
         // TODO: Require security code confirmation
-        // 'security_code' => [
-        //     'label'       => 'authenticator.securityCode.label',
-        //     'type'        => 'number',
-        //     'icon'        => 'shield',
-        //     'placeholder' => null,
-        //     'min'         => 1,
-        //     'max'         => 999999,
-        //     'help'        => 'authenticator.securityCode.label',
-        //     'required'    => true,
-        //     'autofocus'   => true
-        // ]
+        'security_code' => [
+            'label'       => 'authenticator.securityCode.confirmation.label',
+            'type'        => 'number',
+            'icon'        => 'shield',
+            'placeholder' => null,
+            'min'         => 1,
+            'max'         => 999999,
+            'help'        => 'authenticator.securityCode.help',
+            'required'    => true,
+            'autofocus'   => true
+        ]
     ]);
+
+    $form->attr('autocomplete', 'off');
+    $form->data('autosubmit', 'native');
 
     $form->buttons->submit->addClass('btn-positive');
     $form->buttons->submit->value = l('authenticator.toggle.on');

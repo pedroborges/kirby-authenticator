@@ -8,7 +8,7 @@ return function () {
             'text'     => 'authenticator.turnOff.text'
         ],
         'security_code' => [
-            'label'       => 'authenticator.turnOff.securityCode.label',
+            'label'       => 'authenticator.securityCode.confirmation.label',
             'type'        => 'number',
             'icon'        => 'shield',
             'placeholder' => null,

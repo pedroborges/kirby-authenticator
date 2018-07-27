@@ -21,7 +21,7 @@ class BaseController extends Base
         $this->roots         = Authenticator::instance()->roots();
     }
 
-    protected function validateTwoFactorSecret($secret, $username)
+    protected function validateUserSecret($secret, $username)
     {
         $user = site()->users()->find($username);
 
@@ -41,6 +41,13 @@ class BaseController extends Base
                 'authenticatorTimestamp' => $timestamp
             ]);
         } else {
+            throw new InvalidOrExpiredCode();
+        }
+    }
+
+    protected function validateSecret($secret, $key)
+    {
+        if (! $this->authenticator->verifyKey($key, $secret)) {
             throw new InvalidOrExpiredCode();
         }
     }

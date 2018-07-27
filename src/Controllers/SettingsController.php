@@ -13,25 +13,36 @@ class SettingsController extends BaseController
         $user = $this->findUser($username);
 
         $key = $this->getSecretKey($user->username);
-        $url = $this->getSecretUrl($user->username, $key);
+        $url = $this->getSecretUrl($user->username, S::get('authenticator_key', $key));
 
         $self = $this;
         $form = $this->form('settings/turn-on', compact('key', 'url'), function ($form) use ($self, $user) {
+            $data = $form->serialize();
+
             try {
-                // TODO: Ask code before enabling 2-step verification
+                $self->validateSecret($data['security_code'], S::get('authenticator_key'));
+
                 $user->update([
                     'authenticatorSecret' => S::pull('authenticator_key')
                 ]);
 
-                panel()->notify(l('authenticator.turnOn.success'));
+                $self->notify(l('authenticator.turnOn.success'));
+                $self->redirect('users/' . $user->username . '/edit');
             } catch (Exception $e) {
-                panel()->alert(l('authenticator.turnOn.error'));
+                if ($e instanceof InvalidOrExpiredCode) {
+                    $form->alert($e->getMessage());
+                    $form->fields->security_code->error = true;
+                } else {
+                    $self->alert(l('authenticator.turnOn.error'));
+                }
             }
-
-            panel()->redirect('users/' . $user->username . '/edit');
         });
 
-        S::set('authenticator_key', $key);
+        // Prevent setting new key when
+        // security code confirmation fails
+        if (! S::get('authenticator_key')) {
+            S::set('authenticator_key', $key);
+        }
 
         return $this->modal('settings/index', compact('form'));
     }
@@ -45,7 +56,7 @@ class SettingsController extends BaseController
             $data = $form->serialize();
 
             try {
-                $self->validateTwoFactorSecret($data['security_code'], $user->username);
+                $self->validateUserSecret($data['security_code'], $user->username);
 
                 $user->update([
                     'authenticatorSecret' => null,
