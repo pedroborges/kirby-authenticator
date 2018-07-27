@@ -2,23 +2,29 @@
 
 namespace PedroBorges\Authenticator\Controllers;
 
+use Data;
 use Exception;
 use Panel;
+use Password;
 use Url;
 use Kirby\Panel\Controllers\Base;
 use PedroBorges\Authenticator\Authenticator;
+use PedroBorges\Authenticator\Exceptions\InvalidBackupCode;
 use PedroBorges\Authenticator\Exceptions\InvalidOrExpiredCode;
 use PedroBorges\Authenticator\View;
 use PragmaRX\Google2FA\Google2FA;
 
 class BaseController extends Base
 {
+    protected $logFile;
+
     public function __construct($data = [])
     {
         parent::__construct($data);
 
         $this->authenticator = new Google2FA();
         $this->roots         = Authenticator::instance()->roots();
+        $this->logFile       = kirby()->roots()->accounts() . DS . '.logins';
     }
 
     protected function validateUserSecret($secret, $username)
@@ -50,6 +56,28 @@ class BaseController extends Base
         if (! $this->authenticator->verifyKey($key, $secret)) {
             throw new InvalidOrExpiredCode();
         }
+    }
+
+    protected function validateBackupCode($data)
+    {
+        $user = site()->users()->find($data['username']);
+
+        if (! Password::match($data['password'], $user->password)) {
+            return;
+        }
+
+        if ($user->authenticatorBackup !== $data['backup_code']) {
+            throw new InvalidBackupCode();
+        }
+
+        // Disable 2-steps verification
+        $user->update([
+            'authenticatorSecret' => null,
+            'authenticatorTimestamp' => null,
+            'authenticatorBackup' => null,
+        ]);
+
+        return true;
     }
 
     protected function findUser($username)
@@ -94,5 +122,21 @@ class BaseController extends Base
     public function view($file, $data = [])
     {
         return new View($file, $data);
+    }
+
+    protected function log($data = []) {
+        $newData = array_merge($this->logData(), $data);
+
+        return Data::write($this->logFile, $newData, 'json');
+    }
+
+    protected function logData($key = null) {
+        $data = Data::read($this->logFile, 'json');
+
+        if ($key) {
+            return isset($data[$key]) ? $data[$key] : null;
+        }
+
+        return $data;
     }
 }

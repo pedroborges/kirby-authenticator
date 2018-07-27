@@ -59,6 +59,14 @@ panel()->routes([
         }
     ],
     [
+        'pattern' => 'users/(:any)/two-steps/backup',
+        'method'  => 'GET|POST',
+        'filter'  => 'auth',
+        'action'  => function ($username) {
+            return (new SettingsController)->backup($username);
+        }
+    ],
+    [
         'pattern' => 'users/(:any)/two-steps/off',
         'method'  => 'GET|POST',
         'filter'  => 'auth',

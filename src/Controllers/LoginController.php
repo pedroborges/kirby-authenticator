@@ -5,6 +5,7 @@ namespace PedroBorges\Authenticator\Controllers;
 use Exception;
 use S;
 use Kirby\Panel\Login;
+use PedroBorges\Authenticator\Exceptions\InvalidBackupCode;
 use PedroBorges\Authenticator\Exceptions\InvalidOrExpiredCode;
 
 class LoginController extends BaseController
@@ -31,18 +32,37 @@ class LoginController extends BaseController
             ]);
         }
 
+        $attempts = $this->logData('sc_attempts');
+        $canUseBackupCode = $attempts && $attempts >= 3;
+
         $self = $this;
-        $form = $this->form('auth/login', null, function ($form) use ($self, $login) {
+        $form = $this->form('auth/login', compact('canUseBackupCode'), function ($form) use ($self, $login, $canUseBackupCode) {
             $data = $form->serialize();
+            $backupCodeWasUsed = false;
 
             try {
-                $self->validateUserSecret($data['security_code'], $data['username']);
+                if ($canUseBackupCode) {
+                    $backupCodeWasUsed = $self->validateBackupCode($data);
+                } else {
+                    $self->validateUserSecret($data['security_code'], $data['username']);
+                }
+
                 $login->attempt($data['username'], $data['password']);
+
+                if ($backupCodeWasUsed) {
+                    $self->alert(l('authenticator.turnOff.success'));
+                    $self->redirect('users/' . site()->user()->username . '/edit');
+                }
+
                 $self->redirect();
             } catch (Exception $e) {
                 if ($e instanceof InvalidOrExpiredCode) {
                     $form->alert($e->getMessage());
                     $form->fields->security_code->error = true;
+                    $self->logAttempt();
+                } elseif ($e instanceof InvalidBackupCode) {
+                    $form->alert($e->getMessage());
+                    $form->fields->backup_code->error = true;
                 } else {
                     $form->alert(l('login.error'));
                     $form->fields->username->error = true;
@@ -64,5 +84,16 @@ class LoginController extends BaseController
         }
 
         $this->redirect('login');
+    }
+
+    public function logAttempt()
+    {
+        $data = $this->logData();
+
+        $data['sc_attempts'] = isset($data['sc_attempts'])
+            ? $data['sc_attempts'] + 1
+            : 1;
+
+        $this->log($data);
     }
 }

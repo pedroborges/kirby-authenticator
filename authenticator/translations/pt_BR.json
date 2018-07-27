@@ -19,5 +19,13 @@
     "authenticator.securityCode.confirmation.label": "Confirme seu código de segurança",
     "authenticator.securityCode.label": "Código de segurança",
     "authenticator.securityCode.error": "Código de segurança inválido ou expirado",
-    "authenticator.securityCode.help": "Digite o código de segurança de 6 dígitos gerado pelo aplicativo autenticador no seu celular"
+    "authenticator.securityCode.help": "Digite o código de segurança de 6 dígitos gerado pelo aplicativo autenticador no seu celular",
+    "authenticator.backup.label": "Salve o código de backup",
+    "authenticator.backup.text": "Você pode salvar um código de segurança para usar quando não tiver accesso ao aplicativo autenticador. Para isso, copie o código abaixo e armazene-o em local seguro.",
+    "authenticator.backup.note": "Se por algum motivo você não conseguir acessar sua conta, contate o administrador do site.",
+    "authenticator.backup.cancel": "Não, obrigado",
+    "authenticator.backup.error": "Não foi possível salver seu código de backup",
+    "authenticator.backupCode.label": "Código de backup",
+    "authenticator.backupCode.error": "Código de backup inválido",
+    "authenticator.backupCode.help": "Digite o código de backup criado quando você ativou a verificação em duas etapas"
 }

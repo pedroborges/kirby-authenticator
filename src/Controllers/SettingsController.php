@@ -27,7 +27,7 @@ class SettingsController extends BaseController
                 ]);
 
                 $self->notify(l('authenticator.turnOn.success'));
-                $self->redirect('users/' . $user->username . '/edit');
+                $self->redirect('users/' . $user->username . '/two-steps/backup');
             } catch (Exception $e) {
                 if ($e instanceof InvalidOrExpiredCode) {
                     $form->alert($e->getMessage());
@@ -60,7 +60,7 @@ class SettingsController extends BaseController
 
                 $user->update([
                     'authenticatorSecret' => null,
-                    'authenticatorTimestamp' => null
+                    'authenticatorTimestamp' => null,
                 ]);
 
                 $self->notify(l('authenticator.turnOff.success'));
@@ -74,6 +74,34 @@ class SettingsController extends BaseController
                 }
             }
         });
+
+        return $this->modal('settings/index', compact('form'));
+    }
+
+    public function backup($username)
+    {
+        $user = $this->findUser($username);
+
+        if (! $user->authenticatorSecret) {
+            $this->redirect('users/' . $user->username . '/edit');
+        }
+
+        $backup = strtolower(substr($this->getSecretKey($user->username), 0, 8));
+
+        $self = $this;
+        $form = $this->form('settings/backup', compact('user', 'backup'), function ($form) use ($self, $user) {
+            try {
+                $user->update([
+                    'authenticatorBackup' => S::pull('authenticator_backup')
+                ]);
+
+                $self->redirect('users/' . $user->username . '/edit');
+            } catch (Exception $e) {
+                $self->alert(l('authenticator.backup.error'));
+            }
+        });
+
+        S::set('authenticator_backup', $backup);
 
         return $this->modal('settings/index', compact('form'));
     }

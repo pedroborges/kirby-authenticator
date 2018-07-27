@@ -40,6 +40,5 @@ return function ($user, $url) {
     $form->buttons->submit->addClass('btn-positive');
     $form->buttons->submit->value = l('authenticator.toggle.on');
 
-
     return $form;
 };

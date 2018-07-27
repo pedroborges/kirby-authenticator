@@ -1,7 +1,7 @@
 <?php
 
-return function () {
-    $form = new Kirby\Panel\Form([
+return function ($canUseBackupCode) {
+    $fields = [
         'username' => [
             'label'       => 'login.username.label',
             'type'        => 'text',
@@ -14,8 +14,19 @@ return function () {
             'label'       => 'login.password.label',
             'type'        => 'password',
             'required'    => true
-        ],
-        'security_code' => [
+        ]
+    ];
+
+    if ($canUseBackupCode) {
+        $fields['backup_code'] = [
+            'label'       => 'authenticator.backupCode.label',
+            'type'        => 'text',
+            'icon'        => 'shield',
+            'placeholder' => null,
+            'help'        => 'authenticator.backupCode.help'
+        ];
+    } else {
+        $fields['security_code'] = [
             'label'       => 'authenticator.securityCode.label',
             'type'        => 'number',
             'icon'        => 'shield',
@@ -23,8 +34,10 @@ return function () {
             'min'         => 1,
             'max'         => 999999,
             'help'        => 'authenticator.securityCode.help'
-        ]
-    ]);
+        ];
+    }
+
+    $form = new Kirby\Panel\Form($fields);
 
     $form->attr('autocomplete', 'off');
     $form->data('autosubmit', 'native');
