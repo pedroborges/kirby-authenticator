@@ -1,6 +1,6 @@
 <?php
 
-return function () {
+return function ($user) {
     $form = new Kirby\Panel\Form([
         'intro' => [
             'label'    => 'authenticator.turnOff.label',
@@ -22,6 +22,8 @@ return function () {
 
     $form->attr('autocomplete', 'off');
     $form->data('autosubmit', 'native');
+
+    $form->cancel('users/' . $user->username . '/edit');
 
     $form->buttons->submit->addClass('btn-negative');
     $form->buttons->submit->value = l('authenticator.toggle.off');

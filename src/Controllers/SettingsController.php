@@ -16,7 +16,7 @@ class SettingsController extends BaseController
         $url = $this->getSecretUrl($user->username, S::get('authenticator_key', $key));
 
         $self = $this;
-        $form = $this->form('settings/turn-on', compact('key', 'url'), function ($form) use ($self, $user) {
+        $form = $this->form('settings/turn-on', compact('user', 'url'), function ($form) use ($self, $user) {
             $data = $form->serialize();
 
             try {
@@ -52,7 +52,7 @@ class SettingsController extends BaseController
         $user = $this->findUser($username);
 
         $self = $this;
-        $form = $this->form('settings/turn-off', [], function ($form) use ($self, $user) {
+        $form = $this->form('settings/turn-off', compact('user'), function ($form) use ($self, $user) {
             $data = $form->serialize();
 
             try {
