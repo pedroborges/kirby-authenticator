@@ -59,7 +59,7 @@ Updating is as easy as running a few commands.
     $ git submodule update --init --recursive
 
 ## Roadmap
-
+- [X] Create backup codes when activating 2-step verification
 - [ ] Password reset
 - [ ] Password-less login via email
 - [ ] Separate login and 2-step verification in two screens
@@ -67,7 +67,6 @@ Updating is as easy as running a few commands.
 - [ ] Option to copy secret if QR code can't be scanned
 - [ ] Allow admin to turn 2-step verification on/off for users
 - [ ] Login with email/password instead of username/password
-- [ ] Create backup codes when activating 2-step verification
 - [ ] Custom login layout
 
 ## Change Log
