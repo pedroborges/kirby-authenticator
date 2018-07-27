@@ -2,6 +2,8 @@
 
 Improved authentication system with 2-step verification for Kirby CMS.
 
+[![Click to watch a short clip of the Authenticator plugin in action](https://user-images.githubusercontent.com/688309/43308430-f6120d94-9157-11e8-8718-aa533128cef1.png)](https://jumpshare.com/v/gGVqJuIYQ3JV7Hqj99GA)
+
 ## Main features
 - 2-step verification
 - Password reset (soon)
