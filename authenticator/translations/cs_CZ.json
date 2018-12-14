@@ -27,5 +27,5 @@
     "authenticator.backup.error": "Váš záložní kód nemohl být uložen",
     "authenticator.backupCode.label": "Záložní kód",
     "authenticator.backupCode.error": "Neplatný záložní kód",
-    "authenticator.backupCode.help": "Vložte záložní kód získaný při aktivaci dvoufázového ověřní"
+    "authenticator.backupCode.help": "Vložte záložní kód získaný při aktivaci dvoufázového ověření"
 }
